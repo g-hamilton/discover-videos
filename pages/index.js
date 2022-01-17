@@ -3,6 +3,7 @@ import styles from "../styles/Home.module.css";
 
 import Navbar from "../components/nav/navbar";
 import Banner from "../components/banner/banner";
+import Card from "../components/card/card";
 
 export default function Home() {
   return (
@@ -19,7 +20,9 @@ export default function Home() {
         subTitle="a very cute dog"
         imgUrl="/static/clifford.webp"
       />
-      {/* <Card /> */}
+      <Card size="large" imgUrl="/static/cliffor.webp" />
+      <Card size="medium" imgUrl="/static/clifford.webp" />
+      <Card size="small" imgUrl="/static/clifford.webp" />
     </div>
   );
 }
