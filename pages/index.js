@@ -3,9 +3,16 @@ import styles from "../styles/Home.module.css";
 
 import Navbar from "../components/nav/navbar";
 import Banner from "../components/banner/banner";
-import Card from "../components/card/card";
+import SectionCards from "../components/card/section-cards";
 
 export default function Home() {
+  const disneyVideos = Array(20)
+    .fill(null)
+    .map((v, i) => ({
+      id: i,
+      imgUrl: "/static/clifford.webp",
+    }));
+
   return (
     <div className={styles.container}>
       <Head>
@@ -20,9 +27,9 @@ export default function Home() {
         subTitle="a very cute dog"
         imgUrl="/static/clifford.webp"
       />
-      <Card size="large" imgUrl="/static/cliffor.webp" />
-      <Card size="medium" imgUrl="/static/clifford.webp" />
-      <Card size="small" imgUrl="/static/clifford.webp" />
+      <div className={styles.sectionWrapper}>
+        <SectionCards title="Disney" videos={disneyVideos} size="large" />
+      </div>
     </div>
   );
 }
