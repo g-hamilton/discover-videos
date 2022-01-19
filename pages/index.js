@@ -32,21 +32,23 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar username="greg@test.com" />
-      <Banner
-        title="Clifford the red dog"
-        subTitle="a very cute dog"
-        imgUrl="/static/clifford.webp"
-      />
-      <div className={styles.sectionWrapper}>
-        <SectionCards title="Disney" videos={disneyVideos} size="large" />
-        <SectionCards title="Travel" videos={travelVideos} size="small" />
-        <SectionCards
-          title="Productivity"
-          videos={productivityVideos}
-          size="medium"
+      <div className={styles.main}>
+        <Navbar username="greg@test.com" />
+        <Banner
+          title="Clifford the red dog"
+          subTitle="a very cute dog"
+          imgUrl="/static/clifford.webp"
         />
-        <SectionCards title="Popular" videos={popularVideos} size="small" />
+        <div className={styles.sectionWrapper}>
+          <SectionCards title="Disney" videos={disneyVideos} size="large" />
+          <SectionCards title="Travel" videos={travelVideos} size="small" />
+          <SectionCards
+            title="Productivity"
+            videos={productivityVideos}
+            size="medium"
+          />
+          <SectionCards title="Popular" videos={popularVideos} size="small" />
+        </div>
       </div>
     </div>
   );
