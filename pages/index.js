@@ -5,13 +5,10 @@ import Navbar from "../components/nav/navbar";
 import Banner from "../components/banner/banner";
 import SectionCards from "../components/card/section-cards";
 
+import { getVideos } from "../lib/videos";
+
 export default function Home() {
-  const disneyVideos = Array(20)
-    .fill(null)
-    .map((v, i) => ({
-      id: i,
-      imgUrl: "/static/clifford.webp",
-    }));
+  const disneyVideos = getVideos();
 
   return (
     <div className={styles.container}>
