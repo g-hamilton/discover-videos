@@ -2,12 +2,15 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 import styles from "../styles/Login.module.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [usrMsg, setUsrMsg] = useState("");
+
+  const router = useRouter();
 
   const handleOnChangeEmail = (e) => {
     setUsrMsg("");
@@ -16,10 +19,32 @@ const Login = () => {
   };
 
   const handleLoginWithEmail = (e) => {
+    // prevent any page refresh
     e.preventDefault();
+
+    // prevent missing email
     if (!email) {
-      setUsrMsg("Enter a valid email.");
+      setUsrMsg("Enter your email address.");
+      return;
     }
+
+    // prevent invalid email (using regex)
+    const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!email.match(mailformat)) {
+      setUsrMsg("Enter a valid email.");
+      return;
+    }
+
+    // email is valid - attempt login...
+
+    // failed login
+    if (email !== "success@test.com") {
+      setUsrMsg("Something went wrong signing in.");
+      return;
+    }
+
+    // successful login
+    router.push("/"); // route to homepage for now
   };
 
   return (
