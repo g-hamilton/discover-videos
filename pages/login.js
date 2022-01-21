@@ -11,6 +11,7 @@ import { magic, rpcError, rpcErrorCode } from "../lib/magic-client";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [usrMsg, setUsrMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -37,7 +38,10 @@ const Login = () => {
       return;
     }
 
-    // email is valid - attempt magic link login...
+    // email is valid
+    setIsLoading(true);
+
+    // attempt magic link login...
     // https://magic.link/docs/api-reference/client-side-sdks/web#loginwithmagiclink
     try {
       const didToken = await magic.auth.loginWithMagicLink({ email });
@@ -45,8 +49,10 @@ const Login = () => {
         return;
       }
       // successful login
+      setIsLoading(false);
       router.push("/"); // route to homepage for now
     } catch (err) {
+      setIsLoading(false);
       console.error("Something went wrong signing in:", err);
       if (err instanceof rpcError) {
         switch (err.code) {
@@ -104,7 +110,7 @@ const Login = () => {
           />
           <p className={styles.usrMsg}>{usrMsg}</p>
           <button className={styles.loginBtn} onClick={handleLoginWithEmail}>
-            Go
+            {isLoading ? "Loading..." : "Go"}
           </button>
         </div>
       </main>
