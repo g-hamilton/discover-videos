@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "../styles/Login.module.css";
 
@@ -14,6 +14,19 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const handleComplete = () => {
+      setIsLoading(false);
+    };
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+    };
+  }, [router]);
 
   const handleOnChangeEmail = (e) => {
     setUsrMsg("");
@@ -49,7 +62,6 @@ const Login = () => {
         return;
       }
       // successful login
-      setIsLoading(false);
       router.push("/"); // route to homepage for now
     } catch (err) {
       setIsLoading(false);
