@@ -1,10 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 import styles from "../styles/Login.module.css";
+
+import { magic, rpcError, rpcErrorCode } from "../lib/magic-client";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,7 +20,7 @@ const Login = () => {
     setEmail(value);
   };
 
-  const handleLoginWithEmail = (e) => {
+  const handleLoginWithEmail = async (e) => {
     // prevent any page refresh
     e.preventDefault();
 
@@ -35,16 +37,38 @@ const Login = () => {
       return;
     }
 
-    // email is valid - attempt login...
-
-    // failed login
-    if (email !== "success@test.com") {
+    // email is valid - attempt magic link login...
+    // https://magic.link/docs/api-reference/client-side-sdks/web#loginwithmagiclink
+    try {
+      const didToken = await magic.auth.loginWithMagicLink({ email });
+      console.log({ didToken });
+      // successful login
+      // router.push("/"); // route to homepage for now
+    } catch (err) {
+      console.error("Something went wrong signing in:", err);
+      if (err instanceof rpcError) {
+        switch (err.code) {
+          case rpcErrorCode.MagicLinkFailedVerification:
+            setUsrMsg("Magic link failed verification.");
+            break;
+          case rpcErrorCode.MagicLinkExpired:
+            setUsrMsg("Magic link expired.");
+            break;
+          case rpcErrorCode.MagicLinkRateLimited:
+            setUsrMsg("Magic link rate limited.");
+            break;
+          case rpcErrorCode.UserAlreadyLoggedIn:
+            setUsrMsg("You're already logged in.");
+            break;
+          default:
+            setUsrMsg("Something went wrong signing in.");
+            break;
+        }
+        return;
+      }
       setUsrMsg("Something went wrong signing in.");
       return;
     }
-
-    // successful login
-    router.push("/"); // route to homepage for now
   };
 
   return (

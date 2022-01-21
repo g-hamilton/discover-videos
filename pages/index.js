@@ -1,5 +1,4 @@
 import Head from "next/head";
-import dynamic from "next/dynamic";
 
 import styles from "../styles/Home.module.css";
 
@@ -8,10 +7,6 @@ import Banner from "../components/banner/banner";
 import SectionCards from "../components/card/section-cards";
 
 import { getVideos, getPopularVideos } from "../lib/videos";
-
-const magic = dynamic(() => import("../lib/magic-client"), {
-  ssr: false, // we only want Magic client side as it references 'window' objects
-});
 
 export async function getServerSideProps() {
   const disneyVideos = await getVideos("disney trailer");
