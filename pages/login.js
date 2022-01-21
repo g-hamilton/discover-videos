@@ -41,9 +41,11 @@ const Login = () => {
     // https://magic.link/docs/api-reference/client-side-sdks/web#loginwithmagiclink
     try {
       const didToken = await magic.auth.loginWithMagicLink({ email });
-      console.log({ didToken });
+      if (!didToken) {
+        return;
+      }
       // successful login
-      // router.push("/"); // route to homepage for now
+      router.push("/"); // route to homepage for now
     } catch (err) {
       console.error("Something went wrong signing in:", err);
       if (err instanceof rpcError) {
