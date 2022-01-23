@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import clsx from "classnames";
 
 // https://github.com/reactjs/react-modal#api-documentation
 import Modal from "react-modal";
@@ -10,6 +11,16 @@ const Video = () => {
   const router = useRouter();
   const { videoId } = router.query;
 
+  const video = {
+    title: "Hi cute dog",
+    publishTime: "2022-01-01",
+    description: "A big red dog that is super cute. Can he get any bigger?",
+    channelTitle: "Paramount Pictures",
+    viewCount: 1442440,
+  };
+
+  const { title, publishTime, description, channelTitle, viewCount } = video;
+
   return (
     <div className={styles.container}>
       <Modal
@@ -18,7 +29,36 @@ const Video = () => {
         onRequestClose={() => router.back()}
         className={styles.modal}
         overlayClassName={styles.overlay}
-      ></Modal>
+      >
+        <iframe
+          id="ytplayer"
+          type="text/html"
+          width="100%"
+          height="360"
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=0&origin=http://example.com&controls=0&rel=0`}
+          className={styles.videoPlayer}
+        ></iframe>
+
+        <div className={styles.modalBody}>
+          <div className={styles.modalBodyContent}>
+            <div className={styles.col1}>
+              <p className={styles.publishTime}>{publishTime}</p>
+              <p className={styles.title}>{title}</p>
+              <p className={styles.description}>{description}</p>
+            </div>
+            <div className={styles.col2}>
+              <p className={clsx(styles.subText, styles.subTextWrapper)}>
+                <span className={styles.textColor}>Cast: </span>
+                <span className={styles.channelTitle}>{channelTitle}</span>
+              </p>
+              <p className={clsx(styles.subText, styles.subTextWrapper)}>
+                <span className={styles.textColor}>View Count: </span>
+                <span className={styles.channelTitle}>{viewCount}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
