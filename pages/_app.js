@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
         router.push("/login");
       }
     }
-    isUserLoggedIn();
+    // isUserLoggedIn();
   }, []);
 
   useEffect(() => {

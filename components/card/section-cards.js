@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Card from "./card";
 
 import styles from "./section-cards.module.css";
@@ -10,12 +12,11 @@ const SectionCards = (props) => {
       <h2 className={styles.title}>{title}</h2>
       <div className={styles.cardWrapper}>
         {videos.map((i) => (
-          <Card
-            key={`disney-video-${i.id}`}
-            id={i.id}
-            size={(i, size)}
-            imgUrl={i.imgUrl}
-          />
+          <Link key={`disney-video-${i.id}`} href={`/video/${i.id}`} passHref>
+            <a>
+              <Card id={i.id} size={(i, size)} imgUrl={i.imgUrl} />
+            </a>
+          </Link>
         ))}
       </div>
     </section>
