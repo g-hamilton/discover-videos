@@ -61,8 +61,29 @@ const Login = () => {
       if (!didToken) {
         return;
       }
-      // successful login
-      router.push("/"); // route to homepage for now
+
+      /* 
+      successful magic login :)
+      call the login api to create any new user in the db and set a cookie
+      containing the user's auth credentials in a JWT so that the user can
+      make authenticated requests to the db for the next 7 days..
+      */
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${didToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const loggedInResponse = await response.json();
+
+      if (loggedInResponse.done) {
+        router.push("/"); // login complete, route to homepage
+      } else {
+        setIsLoading(false);
+        setUsrMsg("Something went wrong signing in");
+      }
     } catch (err) {
       setIsLoading(false);
       console.error("Something went wrong signing in:", err);
