@@ -6,12 +6,12 @@ import { setTokenCookie } from "../../lib/cookies";
 export default async function login(req, res) {
   // req type must be POST
   if (req.method !== "POST") {
-    res.status(400).send({ message: "Bad request type" });
+    return res.status(400).send({ message: "Bad request type" });
   }
 
   // req must contain a bearer token as an authorization header
   if (!req.headers || !req.headers.authorization) {
-    res
+    return res
       .status(400)
       .send({ message: "Bad request: Invalid or missing authorization" });
   }
