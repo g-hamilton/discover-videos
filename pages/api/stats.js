@@ -1,5 +1,7 @@
 import jsonwebtoken from "jsonwebtoken";
 
+import { findVideoIdByUser } from "../../lib/db/hasura";
+
 export default async function stats(req, res) {
   // POST request type handling
   if (req.method === "POST") {
@@ -20,13 +22,23 @@ export default async function stats(req, res) {
       */
       const decodedToken = jsonwebtoken.verify(token, process.env.JWT_SECRET);
 
-      return res.send({ message: "it works!" });
+      /*
+      Check if stats already exist for this video and this user
+      */
+      const userId = decodedToken.issuer;
+      const videoId = req.query.videoId;
+      const findVideoId = await findVideoIdByUser(token, userId, videoId);
+
+      return res.send({ message: "it works!", findVideoId });
     } catch (error) {
       /*
       Handle any internal server error
       */
       console.error(error);
-      res.status(500).send({ message: "Something went wrong", error });
+      return res.status(500).send({
+        message: "Something went wrong",
+        error: error.message ? error.message : "",
+      });
     }
   }
 
