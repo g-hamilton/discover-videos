@@ -1,6 +1,10 @@
 import jsonwebtoken from "jsonwebtoken";
 
-import { findVideoIdByUser } from "../../lib/db/hasura";
+import {
+  findVideoIdByUser,
+  insertStats,
+  updateStats,
+} from "../../lib/db/hasura";
 
 export default async function stats(req, res) {
   // POST request type handling
@@ -26,10 +30,29 @@ export default async function stats(req, res) {
       Check if stats already exist for this video and this user
       */
       const userId = decodedToken.issuer;
-      const videoId = req.query.videoId;
-      const findVideoId = await findVideoIdByUser(token, userId, videoId);
+      const { videoId, watched, favourited } = req.body;
 
-      return res.send({ message: "it works!", findVideoId });
+      const isNewVideo = await findVideoIdByUser(token, userId, videoId);
+
+      if (isNewVideo) {
+        // add new stats for this video
+        const response = await insertStats(token, {
+          watched,
+          userId,
+          videoId,
+          favourited,
+        });
+        return res.send({ data: response });
+      } else {
+        // update stats for this video
+        const response = await updateStats(token, {
+          watched,
+          userId,
+          videoId,
+          favourited,
+        });
+        return res.send({ data: response });
+      }
     } catch (error) {
       /*
       Handle any internal server error
