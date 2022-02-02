@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import clsx from "classnames";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // https://github.com/reactjs/react-modal#api-documentation
 import Modal from "react-modal";
@@ -54,6 +54,27 @@ const Video = ({ video }) => {
     channelTitle,
     statistics: { viewCount } = { viewCount: 0 },
   } = video;
+
+  useEffect(() => {
+    async function getStats() {
+      const response = await fetch(`/api/stats?videoId=${videoId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.length > 0) {
+        const favourited = data[0].favourited;
+        if (favourited === 1) {
+          setToggleLike(true);
+        } else if (favourited === 0) {
+          setToggleDisLike(true);
+        }
+      }
+    }
+    getStats();
+  }, [videoId]);
 
   const runRatingService = async (favourited) => {
     return await fetch("/api/stats", {
