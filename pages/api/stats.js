@@ -30,7 +30,13 @@ export default async function stats(req, res) {
       Check if stats already exist for this video and this user
       */
       const userId = decodedToken.issuer;
-      const { videoId, watched, favourited } = req.body;
+      const { videoId, watched = true, favourited } = req.body;
+
+      if (!videoId) {
+        return res
+          .status(400)
+          .send({ message: "Missing video ID in request body" });
+      }
 
       const isNewVideo = await findVideoIdByUser(token, userId, videoId);
 
