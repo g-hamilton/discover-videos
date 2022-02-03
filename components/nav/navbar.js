@@ -10,7 +10,7 @@ import { magic } from "../../lib/magic-client";
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [username, setUsername] = useState("");
-
+  const [didToken, setDidToken] = useState("");
   const router = useRouter();
 
   /*
@@ -22,9 +22,11 @@ const Navbar = () => {
       // https://magic.link/docs/api-reference/client-side-sdks/web#getmetadata
       try {
         // Assumes a user is already logged in
-        const { email } = await magic.user.getMetadata();
+        const { email, issuer } = await magic.user.getMetadata();
+        const didToken = await magic.user.getIdToken();
         if (email) {
           setUsername(email);
+          setDidToken(didToken);
         }
       } catch (err) {
         console.error("Error retrieving user data from Magic:", err);
@@ -52,11 +54,16 @@ const Navbar = () => {
     e.preventDefault();
 
     try {
-      await magic.user.logout();
-      console.log(await magic.user.isLoggedIn()); // => 'false'
-      router.push("/login");
-    } catch (err) {
-      console.error("Error logging out of Magic:", err);
+      const response = await fetch("/api/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${didToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const res = await response.json();
+    } catch (error) {
       router.push("/login");
     }
   };
