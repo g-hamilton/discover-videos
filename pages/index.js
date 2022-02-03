@@ -6,20 +6,52 @@ import Navbar from "../components/nav/navbar";
 import Banner from "../components/banner/banner";
 import SectionCards from "../components/card/section-cards";
 
-import { getVideos, getPopularVideos } from "../lib/videos";
+import {
+  getVideos,
+  getPopularVideos,
+  getWatchItAgainVideos,
+} from "../lib/videos";
+import { verifyToken } from "../lib/utils";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  /*
+  As this page is personalised to the user we must have a user token.
+  If token is invalid or missing, redirect to login..
+  */
+  const token = context.req ? context.req.cookies.token : null;
+  const userId = await verifyToken(token);
+  if (!userId) {
+    return {
+      props: {},
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  /*
+  Now we have a valid user token we can fetch all required data..
+  */
+  const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
   const disneyVideos = await getVideos("disney trailer");
   const productivityVideos = await getVideos("productivity");
   const travelVideos = await getVideos("travel");
   const popularVideos = await getPopularVideos();
 
   return {
-    props: { disneyVideos, productivityVideos, travelVideos, popularVideos },
+    props: {
+      watchItAgainVideos,
+      disneyVideos,
+      productivityVideos,
+      travelVideos,
+      popularVideos,
+    },
   };
 }
 
 export default function Home({
+  watchItAgainVideos,
   disneyVideos,
   productivityVideos,
   travelVideos,
@@ -42,6 +74,11 @@ export default function Home({
           imgUrl="/static/clifford.webp"
         />
         <div className={styles.sectionWrapper}>
+          <SectionCards
+            title="Watch it again"
+            videos={watchItAgainVideos}
+            size="small"
+          />
           <SectionCards title="Disney" videos={disneyVideos} size="large" />
           <SectionCards title="Travel" videos={travelVideos} size="small" />
           <SectionCards

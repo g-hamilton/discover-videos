@@ -1,10 +1,9 @@
-import jsonwebtoken from "jsonwebtoken";
-
 import {
   findVideoIdByUser,
   insertStats,
   updateStats,
 } from "../../lib/db/hasura";
+import { verifyToken } from "../../lib/utils";
 
 export default async function stats(req, res) {
   try {
@@ -18,16 +17,9 @@ export default async function stats(req, res) {
     }
 
     /*
-    Verify the token
-    https://github.com/auth0/node-jsonwebtoken
-    Will throw an error if the token is invalid for any reason
-    */
-    const decodedToken = jsonwebtoken.verify(token, process.env.JWT_SECRET);
-
-    /*
     Check if stats already exist for this video and this user
     */
-    const userId = decodedToken.issuer;
+    const userId = await verifyToken(token);
     const inputParams = req.method === "POST" ? req.body : req.query;
     const { videoId } = inputParams;
 
@@ -38,7 +30,7 @@ export default async function stats(req, res) {
     }
 
     const findVideo = await findVideoIdByUser(token, userId, videoId);
-    const isNewVideo = findVideo.length === 0;
+    const isNewVideo = findVideo?.length === 0;
 
     // POST request type handling
     if (req.method === "POST") {
