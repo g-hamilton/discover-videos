@@ -14,26 +14,19 @@ import {
 import { verifyToken } from "../lib/utils";
 
 export async function getServerSideProps(context) {
-  /*
-  As this page is personalised to the user we must have a user token.
-  If token is invalid or missing, redirect to login..
-  */
+  // we should always get a token here as the entire app is behind
+  // login middleware
   const token = context.req ? context.req.cookies.token : null;
   const userId = await verifyToken(token);
-  if (!userId) {
-    return {
-      props: {},
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
 
   /*
-  Now we have a valid user token we can fetch all required data..
+  Watch it again is personalised and requires a token so this could be
+  conditionally fetched or set to null and hidden client side until
+  user is logged in - if we decided not to use login middleware across
+  the entire app.
   */
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
+  /* */
   const disneyVideos = await getVideos("disney trailer");
   const productivityVideos = await getVideos("productivity");
   const travelVideos = await getVideos("travel");
