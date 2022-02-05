@@ -9,7 +9,6 @@ const Banner = (props) => {
   const router = useRouter();
 
   const handleOnPlay = () => {
-    console.log("handle on play");
     router.push(`/video/${videoId}`);
   };
 

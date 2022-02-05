@@ -13,8 +13,8 @@ const logout = async (req, res) => {
     try {
       await magicAdmin.users.logoutByIssuer(userId);
     } catch (error) {
-      console.log("User's session with Magic already expired");
-      console.error("Error occurred while logging out magic user", error);
+      // console.log("User's session with Magic already expired");
+      // console.error("Error occurred while logging out magic user", error);
     }
     // redirect user to login page
     res.writeHead(302, { Location: "/login" });
