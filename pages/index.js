@@ -1,17 +1,17 @@
-import Head from "next/head";
+import Head from 'next/head';
 
-import styles from "../styles/Home.module.css";
+import styles from '../styles/Home.module.css';
 
-import Navbar from "../components/nav/navbar";
-import Banner from "../components/banner/banner";
-import SectionCards from "../components/card/section-cards";
+import Navbar from '../components/nav/navbar';
+import Banner from '../components/banner/banner';
+import SectionCards from '../components/card/section-cards';
 
 import {
   getVideos,
   getPopularVideos,
   getWatchItAgainVideos,
-} from "../lib/videos";
-import { verifyToken } from "../lib/utils";
+} from '../lib/videos';
+import { verifyToken } from '../lib/utils';
 
 export async function getServerSideProps(context) {
   // we should always get a token here as the entire app is behind
@@ -27,9 +27,9 @@ export async function getServerSideProps(context) {
   */
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
   /* */
-  const disneyVideos = await getVideos("disney trailer");
-  const productivityVideos = await getVideos("productivity");
-  const travelVideos = await getVideos("travel");
+  const disneyVideos = await getVideos('disney trailer');
+  const productivityVideos = await getVideos('productivity');
+  const travelVideos = await getVideos('travel');
   const popularVideos = await getPopularVideos();
 
   return {
@@ -53,33 +53,33 @@ export default function Home({
   return (
     <div className={styles.container}>
       <Head>
-        <title>Netflix</title>
-        <meta name="description" content="What would you like to watch next?" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Nextflix</title>
+        <meta name='description' content='What would you like to watch next?' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <div className={styles.main}>
         <Navbar />
         <Banner
-          videoId="4zH5iYM4wJo"
-          title="Clifford the red dog"
-          subTitle="a very cute dog"
-          imgUrl="/static/clifford.webp"
+          videoId='4zH5iYM4wJo'
+          title='Clifford the red dog'
+          subTitle='a very cute dog'
+          imgUrl='/static/clifford.webp'
         />
         <div className={styles.sectionWrapper}>
           <SectionCards
-            title="Watch it again"
+            title='Watch it again'
             videos={watchItAgainVideos}
-            size="small"
+            size='small'
           />
-          <SectionCards title="Disney" videos={disneyVideos} size="large" />
-          <SectionCards title="Travel" videos={travelVideos} size="small" />
+          <SectionCards title='Disney' videos={disneyVideos} size='large' />
+          <SectionCards title='Travel' videos={travelVideos} size='small' />
           <SectionCards
-            title="Productivity"
+            title='Productivity'
             videos={productivityVideos}
-            size="medium"
+            size='medium'
           />
-          <SectionCards title="Popular" videos={popularVideos} size="small" />
+          <SectionCards title='Popular' videos={popularVideos} size='small' />
         </div>
       </div>
     </div>
