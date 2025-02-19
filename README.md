@@ -35,4 +35,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 Thanks for reading!
 
-- The friendly team at NextFlix
+- The team at NextFlix
