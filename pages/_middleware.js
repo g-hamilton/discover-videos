@@ -7,7 +7,7 @@ export async function middleware(req) {
 
   const { pathname } = req.nextUrl;
 
-  return NextResponse.next();
+  return NextResponse.next(); // Temporary
 
   // if (
   //   pathname.includes('/api/login') ||
