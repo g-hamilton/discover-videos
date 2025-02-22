@@ -53,7 +53,7 @@ export default function Home({
   return (
     <div className={styles.container}>
       <Head>
-        <title>NextFlix Videos</title>
+        <title>NextFlix Videos App</title>
         <meta name='description' content='What would you like to watch next?' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
