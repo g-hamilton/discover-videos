@@ -7,7 +7,7 @@ export async function middleware(req) {
 
   const { pathname } = req.nextUrl;
 
-  // Let's make the site public
+  // Let's make the site public - remove the auth check
   return NextResponse.next();
 
   if (
