@@ -53,7 +53,7 @@ export default function Home({
   return (
     <div className={styles.container}>
       <Head>
-        <title>Netflix</title>
+        <title>Netflix Videos</title>
         <meta name='description' content='What would you like to watch next?' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
