@@ -7,6 +7,9 @@ export async function middleware(req) {
 
   const { pathname } = req.nextUrl;
 
+  // Let's make the site public
+  return NextResponse.next();
+
   if (
     pathname.includes('/api/login') ||
     userId ||

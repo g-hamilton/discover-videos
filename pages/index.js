@@ -53,19 +53,19 @@ export default function Home({
   return (
     <div className={styles.container}>
       <Head>
-        <title>NextFlix Videos App</title>
+        <title>Netflix</title>
         <meta name='description' content='What would you like to watch next?' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <div className={styles.main}>
         <Navbar />
-        {/* <Banner
+        <Banner
           videoId='4zH5iYM4wJo'
           title='Clifford the red dog'
           subTitle='a very cute dog'
           imgUrl='/static/clifford.webp'
-        /> */}
+        />
         <div className={styles.sectionWrapper}>
           <SectionCards
             title='Watch it again'
