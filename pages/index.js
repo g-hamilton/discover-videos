@@ -54,7 +54,7 @@ export default function Home({
     <div className={styles.container}>
       <Head>
         <title>NextFlix</title>
-        <meta name='description' content='The Next.js Netflix Clone' />
+        <meta name='description' content='The Next.js Netflix Clone Project' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
@@ -68,7 +68,7 @@ export default function Home({
         />
         <div className={styles.sectionWrapper}>
           <SectionCards
-            title='Watch it again'
+            title="Let's Watch it again"
             videos={watchItAgainVideos}
             size='small'
           />
