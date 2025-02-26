@@ -54,7 +54,7 @@ export default function Home({
     <div className={styles.container}>
       <Head>
         <title>NextFlix</title>
-        <meta name='description' content='The Next.js Netflix Clone' />
+        <meta name='description' content='The Next.js Netflix Clone Project' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
