@@ -68,7 +68,7 @@ export default function Home({
         />
         <div className={styles.sectionWrapper}>
           <SectionCards
-            title='Watch it again'
+            title="Let's Watch it again"
             videos={watchItAgainVideos}
             size='small'
           />
